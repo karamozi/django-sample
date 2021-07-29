@@ -234,7 +234,6 @@ def create_excel(request):
             ws2['c'+str(row)].value = j.capasity
             row = row+ 1
 
-    wb.save(response)
     return response
 
 
