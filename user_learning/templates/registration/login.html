@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+{% load bootstrap4 %}
+<h3 class="text-center mt-5">ورود</h3>
+<div class="container" style='margin-top:200px;'>
+
+
+
+
+  {% if next %}
+    {% if not user.is_authenticated %}
+      <p class="text-center text-danger mt-2">شما اجازه دسترسی به این صفحه را ندارید ابتدا وارد شوید </p>
+
+    {% endif %}
+  {% endif %}
+
+
+
+  <form class="text-center " method="post" action="{% url 'login' %}">
+
+
+
+    {% csrf_token %}
+    <table class="m-auto">
+      <tr>
+        <td class="ml-3">نام کاربری</td>
+        <br>
+        <td>{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td>رمز عبور</td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
+    <input type="submit" class="btn btn-outline-primary mt-2" value="ورود" />
+    <input type="hidden" name="next" value="{{ next }}" />
+
+  </form>
+
+  {% if form.errors %}
+    <p class="text-center">نام کاربری یا رمز عبور درست نمی‌باشد</p>
+  {% endif %}
+</div>
+  {# Assumes you setup the password_reset view in your URLconf #}
+  <!-- <p><a href="{% url 'password_reset' %}">Lost password?</a></p> -->
+
+{% endblock %}

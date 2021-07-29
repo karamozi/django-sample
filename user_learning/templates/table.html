@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+
+
+
+
+  <table class="table  table-hover text-center">
+    <thead>
+      <th>ردیف</th>
+      <th>دانشکده</th>
+      <th>نام درس</th>
+      <th>تعداد جلسات در هفته</th>
+      <th>نام استاد</th>
+      <th>اولین روز درس</th>
+      <th>دومین روز درس</th>
+      <th>ساعت شروع</th>
+      <th>ساعت پایان</th>
+      <th>ظرفیت ثبت‌ نامی</th>
+
+    </thead>
+
+    <tbody>
+      {% for i in table_list %}
+      <tr>
+        <td class="row-id"></td>
+        <td>{{i.school}}</td>
+        <td>{{i.course}}</td>
+        <td>{{i.num_of_session}}</td>
+        <td>{{i.teacher}}</td>
+        <td>{{i.first_day}}</td>
+        <td>{{i.second_day}}</td>
+        <td>{{i.start_time}}</td>
+        <td>{{i.end_time}}</td>
+        <td>{{i.signup_capasity}}</td>
+
+        <td class="row_options"><a class="btn btn-outline-danger "href="{% url 'delete_table' pk=i.pk %}">delete</a></td>
+        <td class="edit row_options"><a class="btn btn-outline-warning">Edit</a></td>
+
+
+      </tr>
+
+      <tr class="update_input" style="display:none;">
+
+        <form class="" action="{% url 'update_table' pk=i.pk %}" method="post">
+          {% csrf_token %}
+
+
+
+          <td></td>
+          <td>
+            {{i.school}}
+          </td>
+
+          <td><input type="text" name="course"></td>
+          <td>
+            <select name="num_of_session">
+              <option>يك روز در هفته</option>
+              <option>دو روز در هفته</option>
+            </select>
+          </td>
+          <td><input style="width:130px;" type="text" name="teacher"></td>
+          <td>
+            <select name="first_day">
+              <option>شنبه</option>
+              <option>يك‌شنبه</option>
+              <option>دوشنبه</option>
+              <option>سه‌شنبه</option>
+              <option>چهارشنبه</option>
+            </select>
+          </td>
+
+          <td>
+            <select name="second_day">
+              <option>شنبه</option>
+              <option>يك‌شنبه</option>
+              <option>دوشنبه</option>
+              <option>سه‌شنبه</option>
+              <option>چهارشنبه</option>
+            </select>
+          </td>
+          <td>
+            <select name="start_time">
+              {% for time in time_list %}
+              <option>{{time}}</option>
+              {% endfor %}
+            </select>
+          </td>
+
+          <td>
+            <select name="end_time">
+              {% for time in time_list %}
+              <option>{{time}}</option>
+              {% endfor %}
+            </select>
+          </td>
+
+
+          <td><input type="number" name="signup_capasity" min='0' class="w-100"></td>
+          <td><input class="btn btn-outline-warning" type="submit" value="Update"></td>
+        </form>
+      </tr>
+      {% endfor %}
+
+      <tr>
+        <form class="" action="{% url 'table' %}" method="post">
+          {% csrf_token %}
+          <td></td>
+          <td>
+            <select style="width:130px;" id="school" name="school">
+              {% for school in selected_schools %}
+              <option>{{school}}</option>
+              {% endfor %}
+            </select>
+          </td>
+
+          <td><input type="text" name="course"></td>
+          <td>
+            <select name="num_of_session">
+              <option>يك روز در هفته</option>
+              <option>دو روز در هفته</option>
+            </select>
+          </td>
+          <td><input style="width:130px;" type="text" name="teacher"></td>
+          <td>
+            <select name="first_day">
+              <option>شنبه</option>
+              <option>يك‌شنبه</option>
+              <option>دوشنبه</option>
+              <option>سه‌شنبه</option>
+              <option>چهارشنبه</option>
+            </select>
+          </td>
+
+          <td>
+            <select name="second_day">
+              <option>شنبه</option>
+              <option>يك‌شنبه</option>
+              <option>دوشنبه</option>
+              <option>سه‌شنبه</option>
+              <option>چهارشنبه</option>
+            </select>
+          </td>
+          <td>
+            <select name="start_time">
+              {% for time in time_list %}
+              <option>{{time}}</option>
+              {% endfor %}
+            </select>
+          </td>
+
+          <td>
+            <select name="end_time">
+              {% for time in time_list %}
+              <option>{{time}}</option>
+              {% endfor %}
+            </select>
+          </td>
+
+
+          <td><input type="number" name="signup_capasity" min='0' class="w-100"></td>
+          <td><button style="border:none; background:none;" type="submit"><i class="fa fa-save btn btn-outline-success" ></i></button></td>
+        </form>
+      </tr>
+    </tbody>
+  </table>
+
+  <a href="{% url 'create_excel' %}" download  class="btn btn-outline-primary download">دانلود فايل اكسل</a>
+
+</div>
+
+
+<script>
+  var items = $('.row-id');
+  var num = 1
+  for (let i = 0; i < items.length; i++) {
+    items[i].innerHTML = num;
+    num = num + 1;
+  }
+
+  $('.edit').click(function (){
+    if ($(this).parent().next().css('display') === 'table-row'){
+      $(this).parent().next().css('display','none')
+    }else {
+      $(this).parent().next().css('display','table-row')
+    }
+
+
+  })
+
+
+
+
+</script>
+
+
+
+{% endblock%}

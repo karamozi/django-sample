@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container clearfix text-center mt-5">
+
+
+<div class=" border border-dark w-25 py-2 float-right ml-5 right" style=' overflow: scroll; height:400px;'>
+  <div class="start_right"></div>
+{% for row in remaining_schools %}
+  <div  class="text-right px-2 remaining_schools item" >
+
+      <p class=' m-0'>{{row}}</p>
+
+  </div>
+  {% endfor %}
+</div>
+<div class="float-right ml-5">
+  <a class="to_right click d-block btn">-----></a>
+  <a class="to_left click d-block btn"><------</a>
+</div>
+
+<div class="border border-dark w-25 py-2 float-right left" style='height:400px; '>
+  <div class="start_left"></div>
+
+  {% for row in selected_schools %}
+  <div  class="text-right px-2 selected_schools item" >
+
+
+      <p class=' m-0'>{{row}}</p>
+        </div>
+    {% endfor %}
+
+
+</div>
+<form class="" action="{% url 'school_selection' %}" method="post">
+  {% csrf_token %}
+  <input type="hidden" class="valueList" name="valueList" value="">
+  <input type="submit" value="save">
+</form>
+
+</div>
+
+<script>
+
+  $('.item').click(function(){
+    $(this).toggleClass('select')
+  })
+
+  $('.to_left').click(function(){
+
+  let list = $('.left .select')
+  list.each(function(x){
+    $('.start_right').after(list[x])
+  })
+
+  var items = $('.left p');
+  var valueList = [];
+  for(let i=0; i<items.length; i++){
+      valueList.push(items[i].innerHTML)
+  }
+
+  $('.valueList').val(valueList)
+  $('.item').removeClass('select')
+  })
+
+  $('.to_right').click(function(){
+
+  let list = $('.right .select')
+  list.each(function(x){
+    $('.start_left').after(list[x])
+  })
+
+  var items = $('.left p');
+  var valueList = [];
+  for(let i=0; i<items.length; i++){
+      valueList.push(items[i].innerHTML)
+  }
+
+  $('.valueList').val(valueList)
+  $('.item').removeClass('select')
+})
+
+var items = $('.left p');
+var valueList = [];
+for(let i=0; i<items.length; i++){
+    console.log(items[i].innerHTML)
+    valueList.push(items[i].innerHTML)
+
+}
+
+$('.valueList').val(valueList)
+
+</script>
+
+{% endblock%}

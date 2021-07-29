@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<table>
+
+
+<tr>
+  <form class="" action="{% url 'class_selection' %}" method="post">
+    {% csrf_token %}
+    <td></td>
+    <td>
+    <select class=" w-100" id="school" name="school">
+      {% for school in selected_schools %}
+        <option>{{school}}</option>
+      {% endfor %}
+
+    </select>
+    </td>
+
+    <td>
+    <input class="w-50" type="number" id="capasity" name="capasity" min="0">
+
+    </td>
+
+  </form>
+</tr>
+
+</table>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5 mx-auto mt-5 w-50 p-3 ">
+
+
+  <form class="form-group" action="{% url 'signup' %}" method="post">
+    {% csrf_token %}
+    <div class=" m-auto position-relative" style="height:50px; width:400px">
+      <label class="d-inline-block text-right position-absolute" style="right:30px;" for="username">نام کاربری</label>
+      <input type="text" id="username" name="username" placeholder="Username">
+      <p class="message text-danger">{{username_message}}</p>
+    </div>
+
+    <div class=" m-auto position-relative" style="height:50px; width:400px">
+      <label class="mr-auto d-inline-block position-absolute" style="right:30px;" for="email">ایمیل</label>
+      <input class="d-inline-block" type="text" id="email" name="email" placeholder="Email">
+      <p class="message text-danger">{{email_message}}</p>
+    </div>
+
+    <div class=" m-auto position-relative" style="height:50px; width:400px">
+      <label class="ml-5 d-inline-block position-absolute" style="right:30px;" for="password">رمز عبور</label>
+      <input type="text" id="password" name="password" placeholder="Password">
+    </div>
+
+    <div class=" m-auto position-relative" style="height:50px; width:400px">
+      <label class="ml-5 d-inline-block position-absolute" style="right:30px;" for="confirm_password">تایید رمز عبور</label>
+      <input type="text" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
+      <p class="message text-danger">{{password_message}}</p>
+    </div>
+
+
+      <input type="submit" value="Sign Up" class="btn btn-outline-dark mx-auto d-block">
+
+
+  </form>
+
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="test">
+
+</div>
+
+<ol class="position-absolute text-right" style="top:100px; right:30px;">
+  <h5 class="all"><a href="{% url 'class_selection' %}">مشاهده همه</a></h5>
+  <div class="school_list_start"></div>
+
+</ol>
+
+<div class="container position-relative">
+
+<div class="container mt-5 text-center w-50">
+
+  <table class="table table-hover">
+    <thead>
+      <th>شماره کلاس</th>
+      <th>نام دانشکده</th>
+      <th>ظرفیت کلاس</th>
+    </thead>
+
+    <tbody>
+      {% for i in class_list %}
+      <tr class="table_row">
+        <td class="class-id"></td>
+        <td class="school_name">{{i.school}}</td>
+        <td>{{i.capasity}}</td>
+        <td class="row_options"><a href="{% url 'delete_class' pk=i.pk %}">Delete</a></td>
+        <td class="edit row_options"><a>Edit</a></td>
+      </tr>
+
+      <tr class="update_input" style="display:none;">
+        <td></td>
+        <form action="{% url 'update_class' pk=i.pk %}" method="post">
+          {% csrf_token %}
+          <td class="update_school_name">
+            {{i.school}}
+          </td>
+
+          <td class="update_school_capasity"><input class="w-50" type="number" id="capasity" name="update_capasity" min="0"></td>
+          <td><input type="submit" value="Update"></td>
+        </form>
+      </tr>
+      {% endfor %}
+
+      <tr>
+        <form class="" action="{% url 'class_selection' %}" method="post">
+          {% csrf_token %}
+          <td></td>
+          <td>
+          <select class=" w-100" id="school" name="school">
+            {% for school in selected_schools %}
+              <option>{{school}}</option>
+            {% endfor %}
+
+          </select>
+          </td>
+
+          <td>
+          <input class="w-50" type="number" id="capasity" name="capasity" min="0">
+
+          </td>
+
+          <td><button style="border:none; background:none;" type="submit"><i class="fa fa-save btn btn-outline-success" ></i></button></td>
+
+        </form>
+      </tr>
+    </tbody>
+  </table>
+
+  </div>
+</div>
+<p class="last_item" style="display:none;">{{last_school}}</p>
+
+{% if all %}
+  <script>
+    var items = $('.class-id');
+    var num = 1
+    for(let i=0; i<items.length; i++){
+        items[i].innerHTML = num;
+        num = num +1;
+    }
+
+    $('.school_list_item').removeClass('select')
+
+  </script>
+
+{% endif %}
+
+<script>
+
+  $('.edit').click(function (){
+    if ($(this).parent().next().css('display') === 'table-row'){
+      $(this).parent().next().css('display','none')
+    }else {
+      $(this).parent().next().css('display','table-row')
+    }
+
+
+  })
+
+
+  var school_list = []
+$('.school_name').each((x)=>{
+    school_list.push($('.school_name')[x].innerHTML)
+})
+
+let unique = school_list.filter((item, i, ar) => ar.indexOf(item) === i);
+
+
+
+for (let i=0; i<unique.length;i++){
+    $('.school_list_start').before('<li class="school_list_item">'+ unique[i] +'</li>')
+}
+
+var school = $('.last_item').text()
+const index = unique.indexOf(school)
+
+$('.all').removeClass('select')
+$('.school_list_item').removeClass('select')
+const last_item = Array.from(document.getElementsByClassName("school_list_item")).filter(row => row.innerHTML==school);
+$(last_item).addClass('select')
+
+var value = school;
+
+  $(".table_row").filter(function() {
+    $(this).toggle($(this).text().indexOf(value) > -1)
+  });
+items = Array.from(document.getElementsByClassName("table_row")).filter(row => row.children[1].innerHTML==school);
+int = 1
+items.forEach((x)=>{
+  x.children[0].innerHTML = (index+1)*100 + int;
+  int ++;
+})
+
+
+
+$('.school_list_item').click(function() {
+  var school = $(this).text()
+  const index = unique.indexOf(school)
+
+  $('.school_list_item').removeClass('select')
+  $(this).addClass('select')
+
+  var value = $(this).text();
+  console.log($(this).text())
+    $(".table_row").filter(function() {
+      $(this).toggle($(this).text().indexOf(value) > -1)
+    });
+  items = Array.from(document.getElementsByClassName("table_row")).filter(row => row.children[1].innerHTML==school);
+  int = 1
+  items.forEach((x)=>{
+    x.children[0].innerHTML = (index+1)*100 + int;
+    int ++;
+  })
+})
+
+
+
+</script>
+
+
+
+{% endblock%}

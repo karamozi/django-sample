@@ -1,0 +1,30 @@
+.select {
+  background-color: #0066CC;
+  color: white;
+}
+
+.selected_schools:hover, .remaining_schools:hover, .school_list_item:hover, .all, .edit:hover {
+  cursor: pointer
+}
+
+
+.school_list_item:hover{
+  cursor: pointer;
+}
+
+.show {
+  display: block;
+}
+
+.row_options {
+  visibility:hidden;
+}
+
+tr:hover td.row_options {
+  visibility: visible;
+  background-color: white
+}
+
+.message {
+  color: red;
+}
