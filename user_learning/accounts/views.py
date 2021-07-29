@@ -19,7 +19,7 @@ from django.views.generic.edit import UpdateView
 # current_User = get_user_model()
 
 
-filename = os.path.join(settings.BASE_DIR, 'static', 'Three_Schools.xlsx')
+filename = settings.BASE_DIR/'static'/'Three_Schools.xlsx'
 wb = load_workbook(filename)
 ws = wb['Data']
 
